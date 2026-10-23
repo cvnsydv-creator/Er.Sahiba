@@ -373,14 +373,14 @@ form.addEventListener("submit", async (e) => {
     } else if (attempts === 2) {
       message.textContent = "Haye re meri bhulakkad Madam Ji! 😂🙈";
       hint.textContent =
-        "Thoda dimaag lagao ji! 😜🧠 Surprise aise thodi khulega! 🎁💗";
+        "Thoda dimaag lagao agr ho to! 😜🧠 Surprise aise thodi n khulega! 🎁💗";
       tryAgain.textContent = "Try Again 😜💗";
       tryAgain.style.display = "block";
     } else if (attempts === 3) {
       message.textContent =
-        "Kya Er. Sahiba, ek password bhi nahi crack kiya ja raha? 😂🙈🔐";
-      hint.textContent = "Abhi ek chance aur hai ji! 😏💋 Soch lo, Madam Ji! 💞";
-      tryAgain.textContent = "Try Again 💗🔄";
+        "Kya meri  Er. Sahiba, ek password bhi nahi crack kiya ja raha? 😂🙈🔐";
+      hint.textContent = "Abhi ek chance aur hai! 😏💋 Soch lo, Madam Ji! 💞";
+      tryAgain.textContent = "Try Again 💗🔄"; 
       tryAgain.style.display = "block";
       askButton.style.display = "block";
     } else {
