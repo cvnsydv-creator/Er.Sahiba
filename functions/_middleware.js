@@ -190,14 +190,14 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   <div class="badge">🎁💗🧸</div>
   <h1 id="heading">Er. Sahiba 👑</h1>
   <p id="intro">
-    Aapke liye ek secret surprise hai ji! 🥹💝<br>
+    Aapke liye ek secret surprise hai! 🥹💝<br>
     Password daalo aur surprise unlock karo 🎀🔐
   </p>
 
   <form id="form">
     <div class="field">
       <input id="password" type="password" autocomplete="current-password"
-        placeholder="Secret password 🔐" required maxlength="256">
+        placeholder="Secret password 🔐" required maxlength="8">
       <button class="toggle" id="toggle" type="button"
         aria-label="Show password">👁️</button>
     </div>
@@ -216,7 +216,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
     <div class="stickers">😂 🤭 🙈 😜 💋 💖 🧸 🎀 😘 💞</div>
     <h1 style="font-size:28px">Ohooo, Madam Ji! 😂❤️</h1>
     <p>
-      Ab toh apne pati ji se hi password poochhna padega! 😜💋💕<br>
+      Ab toh apne pati se hi password poochhna padega! 😜💋💕<br>
       Itna bhi kya dimaag lagana, meri jaan! 🙈🥹💗
     </p>
     <div class="stickers">🌸 😘 🤣 💝 🙈 💋 🫶 😏 🎀</div>
@@ -225,7 +225,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
         💚 WhatsApp par password poochhein 💌
       </a>
       <a class="call" href="tel:+917905241894">
-        📞 Call karo, mere pyare pati ji ❤️😘
+        📞 Call mere pyare pati  ❤️😘
       </a>
     </div>
     <div class="stickers">🙈 😜 😂 💋 😘 💝 🌸 💗 🤣</div>
