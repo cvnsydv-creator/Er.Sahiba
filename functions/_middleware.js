@@ -74,7 +74,6 @@ async function readToken(token, secret) {
   for (let i = 0; i < signature.length; i++) {
     diff |= signature.charCodeAt(i) ^ expected.charCodeAt(i);
   }
-
   if (diff !== 0) return null;
 
   try {
@@ -147,10 +146,8 @@ input{
 button{
   font:inherit;cursor:pointer;border:0;border-radius:14px;
   padding:13px 16px;background:linear-gradient(135deg,#d94691,#a33bd2);
-  color:white;font-weight:750;box-shadow:0 7px 18px #bd397d25;
-  transition:transform .18s
+  color:white;font-weight:750;box-shadow:0 7px 18px #bd397d25
 }
-button:active{transform:scale(.96)}
 button:focus-visible,input:focus-visible,a:focus-visible{
   outline:3px solid #7c3aed;outline-offset:3px
 }
@@ -189,11 +186,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 </style>
 </head>
 <body>
-
-<main class="card" id="mainCard">
+<main class="card">
   <div class="badge">🎁💗🧸</div>
   <h1 id="heading">Er. Sahiba 👑</h1>
-
   <p id="intro">
     Aapke liye ek secret surprise hai ji! 🥹💝<br>
     Password daalo aur surprise unlock karo 🎀🔐
@@ -201,8 +196,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 
   <form id="form">
     <div class="field">
-      <input id="password" type="password"
-        autocomplete="current-password"
+      <input id="password" type="password" autocomplete="current-password"
         placeholder="Secret password 🔐" required maxlength="256">
       <button class="toggle" id="toggle" type="button"
         aria-label="Show password">👁️</button>
@@ -213,10 +207,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   <div class="msg" id="message" role="status" aria-live="polite"></div>
   <div class="hint" id="hint"></div>
 
-  <button id="tryAgain" class="try-btn" type="button">
-    Try Again 💖🔄
-  </button>
-
+  <button id="tryAgain" class="try-btn" type="button">Try Again 💖🔄</button>
   <button id="askButton" class="ask-btn" type="button">
     💌 Password poochne ke liye yahan click karein 😘
   </button>
@@ -229,7 +220,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{
       Itna bhi kya dimaag lagana, meri jaan! 🙈🥹💗
     </p>
     <div class="stickers">🌸 😘 🤣 💝 🙈 💋 🫶 😏 🎀</div>
-
     <div class="actions">
       <a class="wa" id="wa" target="_blank" rel="noopener noreferrer">
         💚 WhatsApp par password poochhein 💌
@@ -238,7 +228,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{
         📞 Call karo, mere pyare pati ji ❤️😘
       </a>
     </div>
-
     <div class="stickers">🙈 😜 😂 💋 😘 💝 🌸 💗 🤣</div>
   </section>
 
@@ -276,10 +265,6 @@ document.querySelector("#wa").href =
     "Love you, mere pyare pati ji 💋💕"
   );
 
-function hidePasswordBox() {
-  form.style.display = "none";
-}
-
 function sprinkleEmojis() {
   const emojis = [
     "💗","💖","💕","💋","😘","🙈","😜","😂","🧸","🌸",
@@ -301,7 +286,7 @@ function sprinkleEmojis() {
 
 function showContactScreen() {
   finished = true;
-  hidePasswordBox();
+  form.style.display = "none";
   tryAgain.style.display = "none";
   askButton.style.display = "none";
   intro.style.display = "none";
@@ -309,7 +294,6 @@ function showContactScreen() {
   message.style.display = "none";
   hint.style.display = "none";
   footer.style.display = "none";
-
   contactScreen.style.display = "block";
   sprinkleEmojis();
 }
@@ -332,7 +316,6 @@ askButton.addEventListener("click", showContactScreen);
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   if (busy || finished) return;
 
   busy = true;
@@ -350,7 +333,18 @@ form.addEventListener("submit", async (e) => {
     const data = await response.json().catch(() => ({}));
 
     if (response.ok && data.success) {
-      location.replace("/");
+      let target = "/";
+      try {
+        const saved = sessionStorage.getItem("bday_return_url");
+        if (saved) {
+          const parsed = new URL(saved, location.origin);
+          if (parsed.origin === location.origin &&
+              !parsed.pathname.startsWith("/__")) {
+            target = parsed.pathname + parsed.search + parsed.hash;
+          }
+        }
+      } catch {}
+      location.replace(target);
       return;
     }
 
@@ -359,15 +353,14 @@ form.addEventListener("submit", async (e) => {
     } else if (Number(data.attempts) > 0) {
       attempts = Number(data.attempts);
     } else {
-      message.textContent =
-        "Server se response nahi mila. Page deploy hua hai ya nahi check karo ji 💗";
-      hint.textContent = "Thodi der baad dobara try karo. 🔄";
+      message.textContent = "Server se response nahi mila ji 😭";
+      hint.textContent = "Deployment aur internet connection check karo. 💗";
       form.style.display = "block";
       return;
     }
 
     input.value = "";
-    hidePasswordBox();
+    form.style.display = "none";
     tryAgain.style.display = "none";
     askButton.style.display = "none";
 
@@ -386,8 +379,7 @@ form.addEventListener("submit", async (e) => {
     } else if (attempts === 3) {
       message.textContent =
         "Kya Er. Sahiba, ek password bhi nahi crack kiya ja raha? 😂🙈🔐";
-      hint.textContent =
-        "Abhi ek chance aur hai ji! 😏💋 Soch lo, Madam Ji! 💞";
+      hint.textContent = "Abhi ek chance aur hai ji! 😏💋 Soch lo, Madam Ji! 💞";
       tryAgain.textContent = "Try Again 💗🔄";
       tryAgain.style.display = "block";
       askButton.style.display = "block";
@@ -395,12 +387,11 @@ form.addEventListener("submit", async (e) => {
       message.textContent = "Haar gayi na, meri Er. Sahiba? 😂🙈❤️";
       hint.textContent =
         "Ab toh apne pati ji se hi password poochhna padega! 😜💋💕";
-      tryAgain.style.display = "none";
       askButton.textContent =
         "💌 Password poochne ke liye yahan click karein 😘";
       askButton.style.display = "block";
     }
-  } catch (error) {
+  } catch {
     message.textContent = "Connection issue ho gaya ji 😭📶";
     hint.textContent = "Internet check karke dobara try karo. 💗";
     form.style.display = "block";
@@ -412,6 +403,65 @@ form.addEventListener("submit", async (e) => {
 </script>
 </body>
 </html>`;
+}
+
+function injectWebsiteRefreshScript(html) {
+  const script = `<script>
+(function(){
+  try {
+    if (sessionStorage.getItem("bday_restore_scroll") === "1") {
+      var savedY = Number(sessionStorage.getItem("bday_scroll_y") || 0);
+      sessionStorage.removeItem("bday_restore_scroll");
+      sessionStorage.removeItem("bday_scroll_y");
+      window.addEventListener("load", function(){
+        requestAnimationFrame(function(){
+          window.scrollTo(0, savedY);
+          setTimeout(function(){ window.scrollTo(0, savedY); }, 250);
+        });
+      });
+    }
+
+    window.addEventListener("pagehide", function(){
+      try {
+        sessionStorage.setItem("bday_return_url", location.href);
+        sessionStorage.setItem("bday_scroll_y", String(window.scrollY));
+        sessionStorage.setItem("bday_restore_scroll", "1");
+      } catch(e) {}
+    });
+  } catch(e) {}
+})();
+</script>`;
+
+  if (/<\/body>/i.test(html)) {
+    return html.replace(/<\/body>/i, script + "</body>");
+  }
+  return html + script;
+}
+
+async function serveProtectedPage(context) {
+  const response = await context.next();
+  const contentType = response.headers.get("Content-Type") || "";
+
+  if (!contentType.includes("text/html")) return response;
+
+  const html = await response.text();
+  const updatedHtml = injectWebsiteRefreshScript(html);
+  const headers = new Headers(response.headers);
+
+  for (const [key, value] of Object.entries(BASE_HEADERS)) {
+    headers.set(key, value);
+  }
+
+  headers.set("Content-Type", "text/html; charset=utf-8");
+  headers.delete("Content-Length");
+  headers.delete("Content-Encoding");
+  headers.delete("ETag");
+
+  return new Response(updatedHtml, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
 }
 
 export async function onRequest(context) {
@@ -442,12 +492,10 @@ export async function onRequest(context) {
     }
 
     let body;
-
     try {
       if (Number(request.headers.get("Content-Length") || 0) > 4096) {
         return json({ error: "Request too large." }, 413);
       }
-
       body = await request.json();
     } catch {
       return json({ error: "Invalid request." }, 400);
@@ -477,7 +525,6 @@ export async function onRequest(context) {
 
     if (body.password !== env.BDAY_PASSWORD) {
       const nextAttempts = attempts + 1;
-
       const token = await makeToken(
         {
           attempts: nextAttempts,
@@ -523,31 +570,20 @@ export async function onRequest(context) {
     );
 
     if (ticket?.kind === "one-use") {
-      const assetResponse = await context.next();
-      const headers = new Headers(assetResponse.headers);
-
-      for (const [key, value] of Object.entries(BASE_HEADERS)) {
-        headers.set(key, value);
-      }
-
-      headers.append("Set-Cookie", clearCookie("bday_ticket"));
-
-      return new Response(assetResponse.body, {
-        status: assetResponse.status,
-        statusText: assetResponse.statusText,
-        headers
-      });
+      return serveProtectedPage(context);
     }
+
+    const headers = new Headers({
+      ...BASE_HEADERS,
+      "Content-Type": "text/html; charset=utf-8",
+      "Set-Cookie": clearCookie("bday_state")
+    });
 
     return new Response(loginPage(), {
       status: 200,
-      headers: {
-        ...BASE_HEADERS,
-        "Content-Type": "text/html; charset=utf-8"
-      }
+      headers
     });
   }
 
   return context.next();
-    }
-    
+}
