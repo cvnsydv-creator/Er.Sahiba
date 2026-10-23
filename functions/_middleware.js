@@ -191,7 +191,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   <h1 id="heading">Er. Sahiba 👑</h1>
   <p id="intro">
     Aapke liye ek secret surprise hai! 🥹💝<br>
-    Password daalo aur surprise unlock karo 🎀🔐
+    Password daalo aur surprise unlock kar lo mdm ji 🎀🔐
   </p>
 
   <form id="form">
@@ -209,15 +209,15 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 
   <button id="tryAgain" class="try-btn" type="button">Try Again 💖🔄</button>
   <button id="askButton" class="ask-btn" type="button">
-    💌 Password poochne ke liye yahan click karein 😘
+    💌 Password janne ke liye yahan click kr lo Akduu 😘
   </button>
 
   <section id="contactScreen">
     <div class="stickers">😂 🤭 🙈 😜 💋 💖 🧸 🎀 😘 💞</div>
     <h1 style="font-size:28px">Ohooo, Madam Ji! 😂❤️</h1>
     <p>
-      Ab toh apne pati se hi password poochhna padega! 😜💋💕<br>
-      Itna bhi kya dimaag lagana, meri jaan! 🙈🥹💗
+      Ab toh apne pati se  password puch lo! 😜💋💕<br>
+      Itna bhi kya dimaag laga rhi ho jb hai hi nhi, meri jaan! 🙈🥹💗
     </p>
     <div class="stickers">🌸 😘 🤣 💝 🙈 💋 🫶 😏 🎀</div>
     <div class="actions">
