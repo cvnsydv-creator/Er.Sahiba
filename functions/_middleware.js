@@ -24,7 +24,10 @@ function json(data, status = 200, extra = {}) {
 function b64url(bytes) {
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  return btoa(binary)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
 }
 
 function unb64url(value) {
@@ -44,7 +47,9 @@ async function hmac(value, secret) {
   );
 
   return b64url(
-    new Uint8Array(await crypto.subtle.sign("HMAC", key, enc.encode(value)))
+    new Uint8Array(
+      await crypto.subtle.sign("HMAC", key, enc.encode(value))
+    )
   );
 }
 
@@ -69,6 +74,7 @@ async function readToken(token, secret) {
   for (let i = 0; i < signature.length; i++) {
     diff |= signature.charCodeAt(i) ^ expected.charCodeAt(i);
   }
+
   if (diff !== 0) return null;
 
   try {
@@ -76,7 +82,12 @@ async function readToken(token, secret) {
       new TextDecoder().decode(unb64url(body))
     );
 
-    if (!payload || typeof payload !== "object" || payload.exp < Date.now()) {
+    if (
+      !payload ||
+      typeof payload !== "object" ||
+      typeof payload.exp !== "number" ||
+      payload.exp < Date.now()
+    ) {
       return null;
     }
 
@@ -113,8 +124,8 @@ function loginPage() {
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;min-height:100svh;display:grid;place-items:center;padding:20px;
-  overflow-x:hidden;
+  margin:0;min-height:100svh;display:grid;place-items:center;
+  padding:20px;overflow-x:hidden;
   background:radial-gradient(circle at 15% 15%,#fff7fb,transparent 36%),
   linear-gradient(145deg,#ffe3f0,#eadcff 55%,#ffe8df);
   font-family:system-ui,-apple-system,sans-serif;color:#63264c
@@ -134,9 +145,10 @@ input{
   border-radius:13px;background:#fff;color:#582449;font-size:16px
 }
 button{
-  font:inherit;cursor:pointer;border:0;border-radius:14px;padding:13px 16px;
-  background:linear-gradient(135deg,#d94691,#a33bd2);color:white;
-  font-weight:750;box-shadow:0 7px 18px #bd397d25;transition:transform .18s
+  font:inherit;cursor:pointer;border:0;border-radius:14px;
+  padding:13px 16px;background:linear-gradient(135deg,#d94691,#a33bd2);
+  color:white;font-weight:750;box-shadow:0 7px 18px #bd397d25;
+  transition:transform .18s
 }
 button:active{transform:scale(.96)}
 button:focus-visible,input:focus-visible,a:focus-visible{
@@ -147,12 +159,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 .msg{margin:18px 0 0;font-size:18px;font-weight:800;color:#a42c70}
 .hint{margin:9px 0;color:#885271;font-size:14px;line-height:1.65}
 #tryAgain,#askButton,#contactScreen{display:none}
-.ask-btn{background:linear-gradient(135deg,#ff4d88,#a33bd2)}
 .try-btn{background:linear-gradient(135deg,#ff75b5,#bb55e8)}
+.ask-btn{background:linear-gradient(135deg,#ff4d88,#a33bd2)}
 .actions{display:flex;gap:10px;flex-direction:column;margin-top:18px}
 .actions a{
-  display:block;padding:14px;border-radius:14px;text-decoration:none;
-  color:white;font-weight:800
+  display:block;padding:14px;border-radius:14px;
+  text-decoration:none;color:white;font-weight:800
 }
 .call{background:linear-gradient(135deg,#ff6197,#d72e78)}
 .wa{background:linear-gradient(135deg,#20c878,#07995c)}
@@ -180,7 +192,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 
 <main class="card" id="mainCard">
   <div class="badge">🎁💗🧸</div>
-  <h1>Er. Sahiba 👑</h1>
+  <h1 id="heading">Er. Sahiba 👑</h1>
+
   <p id="intro">
     Aapke liye ek secret surprise hai ji! 🥹💝<br>
     Password daalo aur surprise unlock karo 🎀🔐
@@ -188,7 +201,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 
   <form id="form">
     <div class="field">
-      <input id="password" type="password" autocomplete="current-password"
+      <input id="password" type="password"
+        autocomplete="current-password"
         placeholder="Secret password 🔐" required maxlength="256">
       <button class="toggle" id="toggle" type="button"
         aria-label="Show password">👁️</button>
@@ -225,7 +239,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{
       </a>
     </div>
 
-    <div class="stickers">🙈😜😂💋😘💝🌸💗🤣</div>
+    <div class="stickers">🙈 😜 😂 💋 😘 💝 🌸 💗 🤣</div>
   </section>
 
   <div class="small" id="footer">Made with endless love 💗✨</div>
@@ -241,6 +255,7 @@ const askButton = document.querySelector("#askButton");
 const contactScreen = document.querySelector("#contactScreen");
 const intro = document.querySelector("#intro");
 const footer = document.querySelector("#footer");
+const heading = document.querySelector("#heading");
 const submit = form.querySelector(".submit");
 
 let attempts = 0;
@@ -256,8 +271,8 @@ document.querySelector("#toggle").addEventListener("click", () => {
 document.querySelector("#wa").href =
   "https://wa.me/917905241894?text=" +
   encodeURIComponent(
-    "Baby please 🥹❤️\n\n" +
-    "Password bata do na 🙈💗 Aapki Er. Sahiba apne surprise ka wait kar rahi hai 🎁😘\n\n" +
+    "Baby please 🥹❤️\\n\\n" +
+    "Password bata do na 🙈💗 Aapki Er. Sahiba apne surprise ka wait kar rahi hai 🎁😘\\n\\n" +
     "Love you, mere pyare pati ji 💋💕"
   );
 
@@ -290,9 +305,11 @@ function showContactScreen() {
   tryAgain.style.display = "none";
   askButton.style.display = "none";
   intro.style.display = "none";
+  heading.style.display = "none";
   message.style.display = "none";
   hint.style.display = "none";
   footer.style.display = "none";
+
   contactScreen.style.display = "block";
   sprinkleEmojis();
 }
@@ -315,6 +332,7 @@ askButton.addEventListener("click", showContactScreen);
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
   if (busy || finished) return;
 
   busy = true;
@@ -336,7 +354,18 @@ form.addEventListener("submit", async (e) => {
       return;
     }
 
-    attempts = Number(data.attempts) || attempts + 1;
+    if (response.status === 429) {
+      attempts = 4;
+    } else if (Number(data.attempts) > 0) {
+      attempts = Number(data.attempts);
+    } else {
+      message.textContent =
+        "Server se response nahi mila. Page deploy hua hai ya nahi check karo ji 💗";
+      hint.textContent = "Thodi der baad dobara try karo. 🔄";
+      form.style.display = "block";
+      return;
+    }
+
     input.value = "";
     hidePasswordBox();
     tryAgain.style.display = "none";
@@ -371,9 +400,9 @@ form.addEventListener("submit", async (e) => {
         "💌 Password poochne ke liye yahan click karein 😘";
       askButton.style.display = "block";
     }
-  } catch {
-    message.textContent = "Internet ne thode nakhre dikhaye 😭📶";
-    hint.textContent = "Connection check karke phir try karo ji 💗";
+  } catch (error) {
+    message.textContent = "Connection issue ho gaya ji 😭📶";
+    hint.textContent = "Internet check karke dobara try karo. 💗";
     form.style.display = "block";
   } finally {
     busy = false;
@@ -413,10 +442,12 @@ export async function onRequest(context) {
     }
 
     let body;
+
     try {
       if (Number(request.headers.get("Content-Length") || 0) > 4096) {
         return json({ error: "Request too large." }, 413);
       }
+
       body = await request.json();
     } catch {
       return json({ error: "Invalid request." }, 400);
@@ -446,6 +477,7 @@ export async function onRequest(context) {
 
     if (body.password !== env.BDAY_PASSWORD) {
       const nextAttempts = attempts + 1;
+
       const token = await makeToken(
         {
           attempts: nextAttempts,
@@ -517,5 +549,5 @@ export async function onRequest(context) {
   }
 
   return context.next();
-                      }
-                                          
+    }
+    
