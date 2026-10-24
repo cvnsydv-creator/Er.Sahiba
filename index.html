@@ -462,6 +462,65 @@ footer {
   }
 }
   
+/* Full-screen photo viewer */
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(35, 15, 38, 0.48);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.photo-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.photo-lightbox img {
+  display: block;
+  max-width: 94vw;
+  max-height: 82dvh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 2px solid rgba(255,255,255,.9);
+  box-shadow: 0 15px 60px rgba(0,0,0,.35);
+  transform: scale(.82);
+  transition: transform .3s ease;
+}
+
+.photo-lightbox.active img {
+  transform: scale(1);
+}
+
+.photo-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #ffffff80;
+  border-radius: 50%;
+  background: #ffffffdf;
+  color: #9f2c6c;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.gallery img,
+.couple-placeholder img {
+  cursor: zoom-in;
+                   }
+  
 </style>
 </head>
 
@@ -605,6 +664,16 @@ Today, tomorrow, and in all the little moments in between, I'm wishing you the v
 <button id="music" class="music-control" type="button" aria-pressed="false">♫ Music: Off</button>
 <audio id="audio" loop preload="none"></audio>
 
+<div id="photoLightbox" class="photo-lightbox"
+     role="dialog" aria-modal="true"
+     aria-label="Photo viewer">
+  <button class="photo-lightbox-close"
+          id="closePhoto"
+          type="button"
+          aria-label="Close photo">×</button>
+  <img id="lightboxImage" src="" alt="Enlarged photo">
+</div>
+  
 <script>
 "use strict";
 
@@ -733,6 +802,46 @@ music.addEventListener("click",async()=>{
     music.setAttribute("aria-pressed","false");
   }
 });
+  
+/* Tap photo to enlarge, blur background, and close */
+const lightbox = document.getElementById("photoLightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const closePhoto = document.getElementById("closePhoto");
+
+function openPhoto(src, alt) {
+  lightboxImage.src = src;
+  lightboxImage.alt = alt || "Enlarged photo";
+  lightbox.classList.add("active");
+  document.body.style.overflow = "hidden";
+  closePhoto.focus();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  document.body.style.overflow = "";
+  lightboxImage.src = "";
+}
+
+document.querySelectorAll(
+  ".gallery img, .couple-placeholder img"
+).forEach(img => {
+  img.addEventListener("click", () => {
+    openPhoto(img.src, img.alt);
+  });
+});
+
+closePhoto.addEventListener("click", closeLightbox);
+
+lightbox.addEventListener("click", event => {
+  if (event.target === lightbox) closeLightbox();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && lightbox.classList.contains("active")) {
+    closeLightbox();
+  }
+});
+  
 </script>
 </body>
   </html>
