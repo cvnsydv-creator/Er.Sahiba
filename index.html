@@ -266,6 +266,126 @@ main,header,footer,nav,.music-control{position:relative;z-index:1}
   }
 }
   
+/* ===== MOBILE ALIGNMENT FIX ===== */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+}
+
+body {
+  min-width: 0;
+}
+
+.hero,
+.topbar,
+main,
+footer {
+  width: 100%;
+  max-width: 100%;
+}
+
+.hero {
+  margin-inline: auto;
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.section {
+  width: 100%;
+  max-width: 1050px;
+  margin-inline: auto;
+  padding-inline: 18px;
+}
+
+.section h2,
+.section > .intro {
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.panel,
+.letter,
+.countdown,
+.couple-placeholder,
+.scratch-card {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  justify-content: center;
+  align-items: stretch;
+  margin-inline: auto;
+}
+
+.photo-placeholder,
+.promise,
+.gift {
+  min-width: 0;
+  transform: none !important;
+}
+
+.gift-row,
+.promise-grid {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.topbar {
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .couple-placeholder,
+  .panel,
+  .letter,
+  .scratch-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .promise-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gift-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero h1 {
+    overflow-wrap: break-word;
+  }
+  }
+  
 </style>
 </head>
 
