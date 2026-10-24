@@ -225,6 +225,47 @@ main,header,footer,nav,.music-control{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
 }
+  
+/* Fix: center the gallery and all main sections */
+.section {
+  width: 100%;
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep the photo cards centered */
+.gallery {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Center the couple photo card */
+.couple-placeholder {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Make layout fit small mobile screens */
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .photo-placeholder:nth-child(3n) {
+    transform: none;
+  }
+
+  .couple-placeholder {
+    max-width: 100%;
+  }
+}
+  
 </style>
 </head>
 
